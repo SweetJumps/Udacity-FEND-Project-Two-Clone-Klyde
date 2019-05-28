@@ -2,8 +2,8 @@
  * Create a list that holds all of your cards
  */
 
-let moveCount = 0;
 let cardMatch = [];
+let moveCount = 0;
 
 let cards = ["fa-anchor", "fa-anchor", "fa-bicycle", "fa-bicycle", "fa-bolt", "fa-bolt", "fa-bomb", "fa-bomb",
              "fa-cube", "fa-cube", "fa-diamond", "fa-diamond", "fa-leaf", "fa-leaf", "fa-paper-plane-o", "fa-paper-plane-o"];
