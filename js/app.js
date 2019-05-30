@@ -1,6 +1,8 @@
 
 let moveCount = 0;
 let cardMatch = [];
+let restart = document.querySelector(".restart");
+restart.addEventListener("click", initialize);
 
 function initialize() {
     
@@ -10,7 +12,7 @@ function initialize() {
 
     let cards = ["fa-anchor", "fa-anchor", "fa-bicycle", "fa-bicycle", "fa-bolt", "fa-bolt", "fa-bomb", "fa-bomb",
                 "fa-cube", "fa-cube", "fa-diamond", "fa-diamond", "fa-leaf", "fa-leaf", "fa-paper-plane-o", "fa-paper-plane-o"];
-
+    let stars = ["fa-star", "fa-star", "fa-star"];
     cards = shuffle(cards);
     updateMoveCounter("initialize");
     /*
@@ -24,15 +26,19 @@ function initialize() {
     let cardsHTML = cards.map(function(card) {
         return `<li class="card" data-card="${card}"><i class="fa ${card}"></i></li>`;
         });
+    let starsHTML = stars.map(function(star) {
+        return `<li><i class="fa ${star}"></i></li>`;
+    });
+    console.log(starsHTML);
 
     // Array​.prototype​.join()
     // MDN: If separator is an empty string, all elements are joined without any characters in between them.
+    let starbar = document.querySelector(".stars");
+    starbar.innerHTML = starsHTML.join('');
     let deck = document.querySelector(".deck");
     deck.innerHTML = cardsHTML.join('');
     // using event delegation to use one eventlistener at the ul level instead of sixteen for all the li elements
     deck.addEventListener("click", cardClicked);
-    let restart = document.querySelector(".restart");
-    restart.addEventListener("click", initialize);
 
 }
     
@@ -76,9 +82,12 @@ function updateMoveCounter(action) {
         }
     let moveCountClass = document.querySelector(".moves");
     moveCountClass.innerHTML = moveCount;
-    //if (moveCount % 5 == 0) && (moveCount != 0) {
-    //    console.log("fifth mod move");
-    //}
+    if ((moveCount % 9 == 0) && (moveCount != 0) && (moveCount < 28) ) {
+        //console.log("ninth mod move");
+        let element = document.querySelector(".fa-star"); 
+        //element.style.visibility = "hidden";
+        element.parentNode.removeChild(element);
+    }
 }
 
 function cardClicked(evt) {
@@ -108,7 +117,7 @@ function cardClicked(evt) {
                 console.log("now clearing unmatched");
                 
 
-                setTimeout(function(){clearUnmatchedCards();},2000);
+                setTimeout(function(){clearUnmatchedCards();},1000);
                 }
                 updateMoveCounter("increment");
                 console.log("stop propogation");
