@@ -6,11 +6,15 @@ restart.addEventListener("click", initialize);
 let startTime;
 let endTime;
 
+
 function initialize() {
 
     matchesFound = 0;
     cardMatch.length = 0;
-    startTime = performance.now();
+    //may try to use function below but had issues when resetting - will try to get back to it in the future
+    //startTime = performance.now();
+    // Get today's date and time
+    startTime = new Date().getTime();
 
     let cards = ["fa-anchor", "fa-anchor", "fa-bicycle", "fa-bicycle", "fa-bolt", "fa-bolt", "fa-bomb", "fa-bomb",
                 "fa-cube", "fa-cube", "fa-diamond", "fa-diamond", "fa-leaf", "fa-leaf", "fa-paper-plane-o", "fa-paper-plane-o"];
@@ -37,9 +41,19 @@ function initialize() {
     // using event delegation to use one eventlistener at the ul level instead of sixteen for all the li elements
     deck.addEventListener("click", cardClicked);
 
+    // start time display function and update every second
+    let myVar = setInterval(updateTimer, 1000);
+
 }
     
 initialize();
+
+function updateTimer() {
+    var now = new Date().getTime();
+    var timeDifference = now - startTime;
+    var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+    document.getElementById("elapsedTime").innerHTML = seconds;
+} 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -68,7 +82,7 @@ function updateMoveCounter(action) {
     let moveCountClass = document.querySelector(".moves");
     moveCountClass.innerHTML = moveCount;
     // three stars for a perfect game of eight matches in eight moves
-    if ((moveCount % 9 == 0) && (moveCount != 0) && (moveCount < 28)) {
+    if ((moveCount % 9 == 0) && (moveCount != 0) && (moveCount < 19)) {
         let element = document.querySelector(".fa-star"); 
         element.parentNode.removeChild(element);
     }
@@ -95,9 +109,10 @@ function showCard(evt){
 }
 
 function winnerWinner(){
-    endTime = performance.now();
-    let winningTime = (endTime - startTime) / 1000;
-    alert("Winner! Winner! Chicken Dinner! - Time: " + winningTime + " seconds.");
+    //endTime = performance.now();
+    //let winningTime = (endTime - startTime) / 1000;
+    alert("Winner! Winner! Chicken Dinner! - Time: " + document.getElementById("elapsedTime").innerHTML + " seconds.");
+    initialize();
 }
 
 function checkMatch(){
